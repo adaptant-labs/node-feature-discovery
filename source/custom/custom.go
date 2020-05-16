@@ -29,6 +29,7 @@ type MatchRule struct {
 	PciId      *rules.PciIdRule      `json:"pciId,omitempty""`
 	UsbId      *rules.UsbIdRule      `json:"usbId,omitempty""`
 	LoadedKMod *rules.LoadedKModRule `json:"loadedKMod,omitempty""`
+	Path       *rules.PathRule       `json:"path,omitempty""`
 }
 
 type CustomFeature struct {
@@ -91,6 +92,16 @@ func (s Source) discoverFeature(feature CustomFeature) (bool, error) {
 		// Loaded kernel module rule
 		if rule.LoadedKMod != nil {
 			match, err := rule.LoadedKMod.Match()
+			if err != nil {
+				return false, err
+			}
+			if !match {
+				continue
+			}
+		}
+		// File path existence rule
+		if rule.Path != nil {
+			match, err := rule.Path.Match()
 			if err != nil {
 				return false, err
 			}

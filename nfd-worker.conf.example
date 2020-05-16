@@ -58,6 +58,9 @@
 #    - name: "my.kernel.feature"
 #      matchOn:
 #        - loadedKMod: ["example_kmod1", "example_kmod2"]
+#    - name: "my.path.feature"
+#      matchOn:
+#        - path: [ "/sys/firmware/fdt" ]
 #    - name: "my.pci.feature"
 #      matchOn:
 #        - pciId:

@@ -296,6 +296,22 @@ Logical _OR_ is performed between Matchers and logical _AND_ is performed betwee
 of a given Matcher.
 
 #### Rules
+##### Path Rule
+###### Nomenclature
+```
+Element     :A file path
+```
+
+The Path Rule allows matching the node-local file system paths in the system against a provided list of Elements.
+
+###### Format
+```yaml
+path : [<filename>, ...]
+```
+
+Matching is done by performing logical _AND_ for each provided Element, i.e the Rule will match if all provided Elements
+(file paths) exist within in the system.
+
 ##### PciId Rule
 ###### Nomenclature
 ```
@@ -361,6 +377,9 @@ custom:
   - name: "my.kernel.feature"
     matchOn:
       - loadedKMod: ["kmod1", "kmod2"]
+  - name: "my.path.feature"
+    matchOn:
+      - path: [ "/sys/firmware/fdt" ]
   - name: "my.pci.feature"
     matchOn:
       - pciId:
@@ -388,6 +407,8 @@ custom:
 __In the example above:__
 - A node would contain the label: `feature.node.kubernetes.io/custom-my.kernel.feature=true`
 if the node has `kmod1` _AND_ `kmod2` kernel modules loaded. 
+- A node would contain the label: `feature.node.kubernetes.io/custom-my.path.feature=true`
+if the node contains a `/sys/firmware/fdt` file in its local filesystem.
 - A node would contain the label: `feature.node.kubernetes.io/custom-my.pci.feature=true`
 if the node contains a PCI device with a PCI vendor ID of `15b3` _AND_ PCI device ID of `1014` _OR_ `1017`.
 - A node would contain the label: `feature.node.kubernetes.io/custom-my.usb.feature=true`
